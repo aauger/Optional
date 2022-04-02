@@ -8,7 +8,19 @@ Action<string> forString = (s) => Console.WriteLine(s);
 myFoo.Then(forString);
 myBar.Then(forString);
 
-myFoo.Match(
-    some: (s) => Console.WriteLine(s),
-    none: () => Console.WriteLine("nothing here!")
-);
+myFoo.Then((s) => myBar.Then((s2) => 
+{
+    Console.WriteLine("Both have values");
+}));
+
+    var combined = myFoo.And(myFoo);
+    var anotherCombo = combined.And(myBar);
+
+    anotherCombo.Then((tuple) =>
+    {
+        var s1 = tuple.Left.Left;
+        var s2 = tuple.Left.Right;
+        var s3 = tuple.Right;
+    });
+
+

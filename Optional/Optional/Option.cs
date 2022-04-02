@@ -35,11 +35,32 @@
                 some(this.Value);
         }
 
+        public Option<(T Left, K Right)> And<K>(Option<K> Other)
+        {
+            if (this.HasValue && Other.HasValue)
+                return Option<(T, K)>.Some((this.Value, Other.Value));
+            else
+                return Option<(T, K)>.None;
+        }
+
         public Option<T> Or(T other)
         {
             if (!HasValue)
                 return Some(other);
             return this;
+        }
+
+        public T Unwrap()
+        {
+            if (HasValue)
+                return this.Value;
+            else
+                throw new NullReferenceException("Cannot Unwrap None");
+        }
+
+        public T UnsafeUnwrap()
+        {
+            return this.Value;
         }
     }
 }
